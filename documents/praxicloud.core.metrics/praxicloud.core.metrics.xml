@@ -1,0 +1,1329 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>praxicloud.core.metrics</name>
+    </assembly>
+    <members>
+        <member name="T:praxicloud.core.metrics.callbackprovider.CallbackMetricsExtensions">
+            <summary>
+            An extension class for metric factories
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.callbackprovider.CallbackMetricsExtensions.AddCallback(praxicloud.core.metrics.IMetricFactory,System.String,System.Int64,praxicloud.core.metrics.callbackprovider.CallbackMetricsProvider.MetricWriterSingleValue,praxicloud.core.metrics.callbackprovider.CallbackMetricsProvider.MetricWriterSummary,System.Object)">
+            <summary>
+            Adds a callback provider to the factory
+            </summary>
+            <param name="factory">The factory to add the callback provider to</param>
+            <param name="name">The user friendly and unique name of the provider</param>
+            <param name="reportingInterval">The number of seconds before each call to counters to report values</param>
+            <param name="singleValueWriter">The callback method that is invoked for single value writes</param>
+            <param name="summaryWriter">The callback method that is invoked for summary data writes</param>
+            <param name="userState">A user state object that consumers can provide that is meaningful to their callbacks</param>
+            <returns>The metric factory</returns>
+        </member>
+        <member name="T:praxicloud.core.metrics.callbackprovider.CallbackMetricsProvider">
+            <summary>
+            An provider for metrics that invokes callback methods to report the values
+            </summary>
+        </member>
+        <member name="T:praxicloud.core.metrics.callbackprovider.CallbackMetricsProvider.MetricWriterSingleValue">
+            <summary>
+            A writer that is called each time the metric is to be written
+            </summary>
+            <param name="name">The name of the metric</param>
+            <param name="userState">A user state object that was provided to the provider</param>
+            <param name="labels">The labels associated with the metric</param>
+            <param name="value">The value that the metric is currently at</param>
+            <param name="cancellationToken">A token to monitor for abort requests</param>
+        </member>
+        <member name="T:praxicloud.core.metrics.callbackprovider.CallbackMetricsProvider.MetricWriterSummary">
+            <summary>
+            A writer that is called each time the metric is to be written
+            </summary>
+            <param name="name">The name of the metric</param>
+            <param name="userState">A user state object that was provided to the provider</param>
+            <param name="labels">The labels associated with the metric</param>
+            <param name="count">The number of values</param>
+            <param name="maximum">The maximum value</param>
+            <param name="mean">The average value using a mean aggregation</param>
+            <param name="minimum">The minimum value</param>
+            <param name="p50">The 50th percentile</param>
+            <param name="p90">The 90th percentile</param>
+            <param name="p95">The 95th percentile</param>
+            <param name="p98">The 98th percentile</param>
+            <param name="p99">The 99th percentile</param>
+            <param name="standardDeviation">The standard deviation</param>
+            <param name="cancellationToken">A token to monitor for abort requests</param>
+        </member>
+        <member name="F:praxicloud.core.metrics.callbackprovider.CallbackMetricsProvider._singleValueWriter">
+            <summary>
+            A callback method invoked to write single values
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.callbackprovider.CallbackMetricsProvider._summaryWriter">
+            <summary>
+            A callback method invoked to write summary data
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.callbackprovider.CallbackMetricsProvider.#ctor(System.Int64,praxicloud.core.metrics.callbackprovider.CallbackMetricsProvider.MetricWriterSingleValue,praxicloud.core.metrics.callbackprovider.CallbackMetricsProvider.MetricWriterSummary,System.Object)">
+            <summary>
+            Initializes a new instance of the type
+            </summary>
+            <param name="reportingInterval">The number of seconds before each call to counters to report values</param>
+            <param name="singleValueWriter">The callback method that is invoked for single value writes</param>
+            <param name="summaryWriter">The callback method that is invoked for summary data writes</param>
+            <param name="userState">A user state object that consumers can provide that is meaningful to their callbacks</param>
+        </member>
+        <member name="M:praxicloud.core.metrics.callbackprovider.CallbackMetricsProvider.MetricWriterSingleValueAsync(System.Object,System.String,System.String[],System.Nullable{System.Double},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.callbackprovider.CallbackMetricsProvider.MetricWriterSummaryAsync(System.Object,System.String,System.String[],System.Nullable{System.Int32},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:praxicloud.core.metrics.consoleprovider.ConsoleMetricsExtensions">
+            <summary>
+            An extension class for metric factories
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.consoleprovider.ConsoleMetricsExtensions.AddConsole(praxicloud.core.metrics.IMetricFactory,System.String,System.Int64,System.Boolean)">
+            <summary>
+            Adds a console provider to the factory
+            </summary>
+            <param name="factory">The factory to add the console provider to</param>
+            <param name="name">The user friendly and unique name of the provider</param>
+            <param name="reportingInterval">The number of seconds before each call to counters to report values</param>
+            <param name="includeLabels">True if the labels should be prefixed</param>
+            <returns>The metric factory</returns>
+        </member>
+        <member name="T:praxicloud.core.metrics.consoleprovider.ConsoleMetricsProvider">
+            <summary>
+            A metrics provider that outputs to the console
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.consoleprovider.ConsoleMetricsProvider._includeLabels">
+            <summary>
+            True if the writer should output the label prefix
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.consoleprovider.ConsoleMetricsProvider._metricLabels">
+            <summary>
+            A dictionary of labels for each metric
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.consoleprovider.ConsoleMetricsProvider.#ctor(System.Int64,System.Boolean)">
+            <summary>
+            Initializes a new instance of the type
+            </summary>
+            <param name="reportingInterval">The number of seconds before each call to counters to report values</param>
+            <param name="includeLabels">True if the labels should be prefixed</param>
+        </member>
+        <member name="M:praxicloud.core.metrics.consoleprovider.ConsoleMetricsProvider.MetricPrecreate(System.String,System.String,System.Boolean,System.String[])">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.consoleprovider.ConsoleMetricsProvider.MetricWriterSingleValueAsync(System.Object,System.String,System.String[],System.Nullable{System.Double},System.Threading.CancellationToken)">
+            <summary>
+            Writes a metric
+            </summary>
+            <param name="name">The name of the metric</param>
+            <param name="userState">A user state object that was provided to the provider</param>
+            <param name="labels">The labels associated with the metric</param>
+            <param name="value">The value that the metric is currently at</param>
+            <param name="cancellationToken">A token to monitor for abort requests</param>
+        </member>
+        <member name="M:praxicloud.core.metrics.consoleprovider.ConsoleMetricsProvider.MetricWriterSummaryAsync(System.Object,System.String,System.String[],System.Nullable{System.Int32},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Threading.CancellationToken)">
+            <summary>
+            Writes a summary
+            </summary>
+            <param name="name">The name of the metric</param>
+            <param name="userState">A user state object that was provided to the provider</param>
+            <param name="labels">The labels associated with the metric</param>
+            <param name="count">The number of values</param>
+            <param name="maximum">The maximum value</param>
+            <param name="mean">The average value using a mean aggregation</param>
+            <param name="minimum">The minimum value</param>
+            <param name="p50">The 50th percentile</param>
+            <param name="p90">The 90th percentile</param>
+            <param name="p95">The 95th percentile</param>
+            <param name="p98">The 98th percentile</param>
+            <param name="p99">The 99th percentile</param>
+            <param name="standardDeviation">The standard deviation</param>
+            <param name="cancellationToken">A token to monitor for abort requests</param>
+        </member>
+        <member name="T:praxicloud.core.metrics.Counter">
+            <summary>
+            A counter that increments in values and never decreases, only restarting when it is recreated
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.Counter._counters">
+            <summary>
+            The list of counters that are controlled by this one aggregated counter
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.Counter.#ctor(praxicloud.core.metrics.ICounter[],System.String,System.String,System.String[])">
+            <summary>
+            Initializes a new instance of the type
+            </summary>
+            <param name="counters">The counters that this counter feeds</param>
+            <param name="name">The name of the clounter</param>
+            <param name="help">The help text associated with the counter</param>
+            <param name="labels">The labels associated with the counter</param>
+        </member>
+        <member name="P:praxicloud.core.metrics.Counter.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:praxicloud.core.metrics.Counter.Help">
+            <inheritdoc />
+        </member>
+        <member name="P:praxicloud.core.metrics.Counter.Labels">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.Counter.Increment">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.Counter.IncrementBy(System.Double)">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.Counter.SetTo(System.Double)">
+            <inheritdoc />
+        </member>
+        <member name="T:praxicloud.core.metrics.debugprovider.DebugMetricsExtensions">
+            <summary>
+            An extension class for metric factories
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.debugprovider.DebugMetricsExtensions.AddDebug(praxicloud.core.metrics.IMetricFactory,System.String,System.Int64,System.Boolean)">
+            <summary>
+            Adds a debug provider to the factory
+            </summary>
+            <param name="factory">The factory to add the debug provider to</param>
+            <param name="name">The user friendly and unique name of the provider</param>
+            <param name="reportingInterval">The number of seconds before each call to counters to report values</param>
+            <param name="includeLabels">True if the labels should be prefixed</param>
+            <returns>The metric factory</returns>
+        </member>
+        <member name="T:praxicloud.core.metrics.debugprovider.DebugMetricsProvider">
+            <summary>
+            A metrics provider that outputs to the console
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.debugprovider.DebugMetricsProvider._includeLabels">
+            <summary>
+            True if the writer should output the label prefix
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.debugprovider.DebugMetricsProvider._metricLabels">
+            <summary>
+            A dictionary of labels for each metric
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.debugprovider.DebugMetricsProvider.#ctor(System.Int64,System.Boolean)">
+            <summary>
+            Initializes a new instance of the type
+            </summary>
+            <param name="reportingInterval">The number of seconds before each call to counters to report values</param>
+            <param name="includeLabels">True if the labels should be prefixed</param>
+        </member>
+        <member name="M:praxicloud.core.metrics.debugprovider.DebugMetricsProvider.MetricPrecreate(System.String,System.String,System.Boolean,System.String[])">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.debugprovider.DebugMetricsProvider.MetricWriterSingleValueAsync(System.Object,System.String,System.String[],System.Nullable{System.Double},System.Threading.CancellationToken)">
+            <summary>
+            Writes a metric
+            </summary>
+            <param name="name">The name of the metric</param>
+            <param name="userState">A user state object that was provided to the provider</param>
+            <param name="labels">The labels associated with the metric</param>
+            <param name="value">The value that the metric is currently at</param>
+            <param name="cancellationToken">A token to monitor for abort requests</param>
+        </member>
+        <member name="M:praxicloud.core.metrics.debugprovider.DebugMetricsProvider.MetricWriterSummaryAsync(System.Object,System.String,System.String[],System.Nullable{System.Int32},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Threading.CancellationToken)">
+            <summary>
+            Writes a summary
+            </summary>
+            <param name="name">The name of the metric</param>
+            <param name="userState">A user state object that was provided to the provider</param>
+            <param name="labels">The labels associated with the metric</param>
+            <param name="count">The number of values</param>
+            <param name="maximum">The maximum value</param>
+            <param name="mean">The average value using a mean aggregation</param>
+            <param name="minimum">The minimum value</param>
+            <param name="p50">The 50th percentile</param>
+            <param name="p90">The 90th percentile</param>
+            <param name="p95">The 95th percentile</param>
+            <param name="p98">The 98th percentile</param>
+            <param name="p99">The 99th percentile</param>
+            <param name="standardDeviation">The standard deviation</param>
+            <param name="cancellationToken">A token to monitor for abort requests</param>
+        </member>
+        <member name="T:praxicloud.core.metrics.Gauge">
+            <summary>
+            A counter that increments in values and never decreases, only restarting when it is recreated
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.Gauge._gauges">
+            <summary>
+            The list of counters that are controlled by this one aggregated counter
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.Gauge.#ctor(praxicloud.core.metrics.IGauge[],System.String,System.String,System.String[])">
+            <summary>
+            Initializes a new instance of the type
+            </summary>
+            <param name="gauges">The gauges that this counter feeds</param>
+            <param name="name">The name of the clounter</param>
+            <param name="help">The help text associated with the counter</param>
+            <param name="labels">The labels associated with the counter</param>
+        </member>
+        <member name="P:praxicloud.core.metrics.Gauge.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:praxicloud.core.metrics.Gauge.Help">
+            <inheritdoc />
+        </member>
+        <member name="P:praxicloud.core.metrics.Gauge.Labels">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.Gauge.Decrement">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.Gauge.DecrementBy(System.Double)">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.Gauge.Increment">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.Gauge.IncrementBy(System.Double)">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.Gauge.SetTo(System.Double)">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.Gauge.TrackExecution">
+            <inheritdoc />
+        </member>
+        <member name="T:praxicloud.core.metrics.Gauge.Tracker">
+            <summary>
+            An type that tracks aggregates multiple disposable items
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.Gauge.Tracker._toDisposeOf">
+            <summary>
+            The disposable objects to dispose of when this object is disposed
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.Gauge.Tracker.#ctor(System.IDisposable[])">
+            <summary>
+            Initializes a new instance of the type
+            </summary>
+            <param name="toDisposeOf">The disposable objects to dispose of when this object is disposed</param>
+        </member>
+        <member name="M:praxicloud.core.metrics.Gauge.Tracker.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:praxicloud.core.metrics.ICounter">
+            <summary>
+            A metric that increases in value, never decreasing except when restarted
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.ICounter.Increment">
+            <summary>
+            Increments the counter by 1.0
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.ICounter.IncrementBy(System.Double)">
+            <summary>
+            Increments the current value by values
+            </summary>
+            <param name="value">The amount to increase the metric by</param>
+        </member>
+        <member name="M:praxicloud.core.metrics.ICounter.SetTo(System.Double)">
+            <summary>
+            Sets the value to the specified value as long as it is greater than the current value
+            </summary>
+            <param name="value">The value to set the counter to</param>
+        </member>
+        <member name="T:praxicloud.core.metrics.IGauge">
+            <summary>
+            A metric that increases and decreases
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.IGauge.Increment">
+            <summary>
+            Increments the gauge by 1.0
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.IGauge.IncrementBy(System.Double)">
+            <summary>
+            Incrememnt the current value by the specified value
+            </summary>
+            <param name="value">The value to increment the value by</param>
+        </member>
+        <member name="M:praxicloud.core.metrics.IGauge.Decrement">
+            <summary>
+            Decrements the gauge by 1.0
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.IGauge.DecrementBy(System.Double)">
+            <summary>
+            Decrements the current value by the specified value
+            </summary>
+            <param name="value">The value to decrement the value by</param>
+        </member>
+        <member name="M:praxicloud.core.metrics.IGauge.SetTo(System.Double)">
+            <summary>
+            Sets the value to the specified value as long as it is greater than the current value
+            </summary>
+            <param name="value">The value to set the counter to</param>
+        </member>
+        <member name="M:praxicloud.core.metrics.IGauge.TrackExecution">
+            <summary>
+            Creates a concurrency tracker that increments the counter when instantiated and decrememnts when disposed of
+            </summary>
+            <returns>An instance of a disposable object htat when disposed decrements the metric</returns>
+        </member>
+        <member name="T:praxicloud.core.metrics.IMetric">
+            <summary>
+            The core metric implementation
+            </summary>
+        </member>
+        <member name="P:praxicloud.core.metrics.IMetric.Name">
+            <summary>
+            The name of the metric
+            </summary>
+        </member>
+        <member name="P:praxicloud.core.metrics.IMetric.Help">
+            <summary>
+            The help text associated with the metric
+            </summary>
+        </member>
+        <member name="P:praxicloud.core.metrics.IMetric.Labels">
+            <summary>
+            Labels associated with the metric that may demonstrate different views. It is up to the metric provider whether it is supported and the number of labels that are supported, no exceptions will be raised as a result but 
+            many providers will demonstrate a performance impact for too many labels as it may create descrete metrics.
+            </summary>
+        </member>
+        <member name="T:praxicloud.core.metrics.IMetricCreator">
+            <summary>
+            A type that has the ability to create metrics objects
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.IMetricCreator.CreateCounter(System.String,System.String,System.Boolean,System.String[])">
+            <summary>
+            Creates a new counter with the specified name
+            </summary>
+            <param name="name">The display name of the counter</param>
+            <param name="help">The help text associated with the counter</param>
+            <param name="delayPublish">True if the counter should wait to publish information until it has a value assigned</param>
+            <param name="labels">The labels associated with the counter</param>
+            <returns>A counter instance</returns>
+        </member>
+        <member name="M:praxicloud.core.metrics.IMetricCreator.CreateGauge(System.String,System.String,System.Boolean,System.String[])">
+            <summary>
+            Creates a new gauge with the specified name
+            </summary>
+            <param name="name">The display name of the gauge</param>
+            <param name="help">The help text associated with the gauge</param>
+            <param name="delayPublish">True if the gauge should wait to publish information until it has a value assigned</param>
+            <param name="labels">The labels associated with the gauge</param>
+            <returns>A gauge instance</returns>
+        </member>
+        <member name="M:praxicloud.core.metrics.IMetricCreator.CreateSummary(System.String,System.String,System.Int64,System.Boolean,System.String[])">
+            <summary>
+            Creates a new summary with the specified name
+            </summary>
+            <param name="name">The display name of the summary</param>
+            <param name="help">The help text assocaited with the summary</param>
+            <param name="duration">The duration in seconds of each bucket (the aggregation is across this bucket)</param>
+            <param name="delayPublish">True if the summary should wait to publish information until it has a value assigned</param>
+            <param name="labels">The labels associated with the summary</param>
+            <returns>A summary instance</returns>
+        </member>
+        <member name="M:praxicloud.core.metrics.IMetricCreator.CreatePulse(System.String,System.String,System.Boolean,System.String[])">
+            <summary>
+            Creates a new pulse with the specified name
+            </summary>
+            <param name="name">The display name of the pulse</param>
+            <param name="help">The help text associated with the pulse</param>
+            <param name="delayPublish">True if the summary should wait to publish information until it has a value assigned</param>
+            <param name="labels">The labels associated with the pulse</param>
+            <returns>A pulse instance</returns>
+        </member>
+        <member name="T:praxicloud.core.metrics.IMetricFactory">
+            <summary>
+            A factory used to create metrics
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.IMetricFactory.AddProvider(System.String,praxicloud.core.metrics.IMetricProvider)">
+            <summary>
+            Adds the metric provider to the factory where gauges, counters and summary instances created from the factory will write to all associated providers
+            </summary>
+            <param name="name">The name of the provider</param>
+            <param name="provider">The provider to write to</param>
+        </member>
+        <member name="T:praxicloud.core.metrics.IMetricProvider">
+            <summary>
+            A metric provider that writes to a specific sink
+            </summary>
+        </member>
+        <member name="T:praxicloud.core.metrics.IPulse">
+            <summary>
+            A metric that indicates an known event occurred
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.IPulse.Observe">
+            <summary>
+            Records that an event occurred
+            </summary>
+        </member>
+        <member name="T:praxicloud.core.metrics.ISummary">
+            <summary>
+            Summarizes the value over a period of time
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.ISummary.Time">
+            <summary>
+            Times the time between calling Time() and diposing of the returned IDisposable object
+            </summary>
+            <returns>An instance that should be disposed of to complete the timing entry</returns>
+        </member>
+        <member name="M:praxicloud.core.metrics.ISummary.Observe(System.Double)">
+            <summary>
+            Adds an observed value for the current UTC time
+            </summary>
+            <param name="value">The value that was observed</param>
+        </member>
+        <member name="T:praxicloud.core.metrics.MetricBucket">
+            <summary>
+            A helper class to compute bucketed metric aggregates
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.MetricBucket._bucketValues">
+            <summary>
+            The list of bucket values
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.MetricBucket.#ctor(System.Int64)">
+            <summary>
+            Initializes a new instance of the type
+            </summary>
+            <param name="duration">The duration in seconds</param>
+        </member>
+        <member name="P:praxicloud.core.metrics.MetricBucket.Duration">
+            <summary>
+            The whole seconds of time in the duration
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.MetricBucket.AddValue(System.DateTimeOffset,System.Double)">
+            <summary>
+            Adds an observed value for the specified timestamp
+            </summary>
+            <param name="timestamp">The time that the value was observed at</param>
+            <param name="value">The value that was observed</param>
+        </member>
+        <member name="M:praxicloud.core.metrics.MetricBucket.GetAggregates(System.Nullable{System.DateTimeOffset}@,System.Nullable{System.Int32}@,System.Nullable{System.Double}@,System.Nullable{System.Double}@,System.Nullable{System.Double}@,System.Nullable{System.Double}@,System.Nullable{System.Double}@,System.Nullable{System.Double}@,System.Nullable{System.Double}@,System.Nullable{System.Double}@,System.Nullable{System.Double}@)">
+            <summary>
+            Retrieves the metric aggregates for the latest complete bucket
+            </summary>
+            <param name="bucketStartTime">The start time of the bucket with completed aggregates (assumed by newer values arriving)</param>
+            <param name="count">The number of metrics the aggregates are based on</param>
+            <param name="maximum">The maximum value</param>
+            <param name="minimum">The minimum value</param>
+            <param name="mean">The average (mean) value</param>
+            <param name="standardDeviation">The standard deviation of the values</param>
+            <param name="p50">The 50th percentile of the values</param>
+            <param name="p90">The 90th percentile of the values</param>
+            <param name="p95">The 95th percentile of the values</param>
+            <param name="p98">The 98th percentile of the values</param>
+            <param name="p99">The 99th percentile of the values</param>
+        </member>
+        <member name="M:praxicloud.core.metrics.MetricBucket.GetBucket(System.DateTimeOffset,System.Int64)">
+            <summary>
+            Gets the bucket based on duration
+            </summary>
+            <param name="timeStamp">The timestamp to find the bucket for</param>
+            <param name="duration">The duration in each bucket</param>
+            <returns>The bucket index</returns>
+        </member>
+        <member name="M:praxicloud.core.metrics.MetricBucket.GetBucketTime(System.Int64,System.Int64)">
+            <summary>
+            Converts the calculated bucket number to the Date Time Offset
+            </summary>
+            <param name="bucket">The bucket</param>
+            <param name="duration">The duration used to calculate the buckets</param>
+            <returns></returns>
+        </member>
+        <member name="T:praxicloud.core.metrics.MetricFactory">
+            <summary>
+            A factory instance that creates metrics based on the provider list
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.MetricFactory._providers">
+            <summary>
+            A list of providers that the factory associates with each counter it creates
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.MetricFactory.AddProvider(System.String,praxicloud.core.metrics.IMetricProvider)">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.MetricFactory.CreateCounter(System.String,System.String,System.Boolean,System.String[])">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.MetricFactory.CreateGauge(System.String,System.String,System.Boolean,System.String[])">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.MetricFactory.CreatePulse(System.String,System.String,System.Boolean,System.String[])">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.MetricFactory.CreateSummary(System.String,System.String,System.Int64,System.Boolean,System.String[])">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.MetricFactory.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:praxicloud.core.metrics.MetricUtilities">
+            <summary>
+            Helper utilities for working with metrics
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.MetricUtilities.CreateMetricName(System.String,System.String,System.String,System.String)">
+            <summary>
+            Creates a metric name following the recommended format
+            </summary>
+            <param name="applicationPrefix">A prefix indicating the name of the application or library</param>
+            <param name="metric">The metric being recorded</param>
+            <param name="unitName">The name of the unit being recorded</param>
+            <param name="aggregate">The aggregate that is in use</param>
+            <returns>A string representation of the metric name following recommended formatting rules</returns>
+        </member>
+        <member name="M:praxicloud.core.metrics.MetricUtilities.CreateMetricName(System.String,System.String,System.String)">
+            <summary>
+            Creates a metric name following the recommended format
+            </summary>
+            <param name="applicationPrefix">A prefix indicating the name of the application or library</param>
+            <param name="metric">The metric being recorded</param>
+            <param name="unitName">The name of the unit being recorded</param>
+            <returns>A string representation of the metric name following recommended formatting rules</returns>
+        </member>
+        <member name="M:praxicloud.core.metrics.MetricUtilities.CreateMetricName(System.String,System.String)">
+            <summary>
+            Creates a metric name following the recommended format
+            </summary>
+            <param name="applicationPrefix">A prefix indicating the name of the application or library</param>
+            <param name="metric">The metric being recorded</param>
+            <returns>A string representation of the metric name following recommended formatting rules</returns>
+        </member>
+        <member name="M:praxicloud.core.metrics.MetricUtilities.CreateMetricNameInternal(System.Text.StringBuilder,System.String,System.String)">
+            <summary>
+            Creates a metric name following the recommended format
+            </summary>
+            <param name="applicationPrefix">A prefix indicating the name of the application or library</param>
+            <param name="metric">The metric being recorded</param>
+            <param name="builder">The string builder to write the name to</param>
+            <returns>A string builder that has the portion of the metric name</returns>
+        </member>
+        <member name="M:praxicloud.core.metrics.MetricUtilities.CreateMetricNameInternal(System.Text.StringBuilder,System.String,System.String,System.String)">
+            <summary>
+            Creates a metric name following the recommended format
+            </summary>
+            <param name="applicationPrefix">A prefix indicating the name of the application or library</param>
+            <param name="metric">The metric being recorded</param>
+            <param name="builder">The string builder to write the name to</param>
+            <param name="unitName">The name of the unit being recorded</param> 
+            <returns>A string builder that has the portion of the metric name</returns>
+        </member>
+        <member name="M:praxicloud.core.metrics.MetricUtilities.CreateMetricNameInternal(System.Text.StringBuilder,System.String,System.String,System.String,System.String)">
+            <summary>
+            Creates a metric name following the recommended format
+            </summary>
+            <param name="applicationPrefix">A prefix indicating the name of the application or library</param>
+            <param name="metric">The metric being recorded</param>
+            <param name="builder">The string builder to write the name to</param>
+            <param name="unitName">The name of the unit being recorded</param> 
+            <param name="aggregate">The aggregate that is in use</param>
+            <returns>A string builder that has the portion of the metric name</returns>
+        </member>
+        <member name="M:praxicloud.core.metrics.MetricUtilities.CleanMetricElement(System.String)">
+            <summary>
+            Cleans the metric element to remove whitespace
+            </summary>
+            <param name="element">The element to clean</param>
+            <returns>A string version of the value</returns>
+        </member>
+        <member name="T:praxicloud.core.metrics.Pulse">
+            <summary>
+            Indicates that a known event occurred
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.Pulse._pulses">
+            <summary>
+            The list of pulses that are controlled by this one aggregated counter
+            </summary>
+        </member>
+        <member name="P:praxicloud.core.metrics.Pulse.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:praxicloud.core.metrics.Pulse.Help">
+            <inheritdoc />
+        </member>
+        <member name="P:praxicloud.core.metrics.Pulse.Labels">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.Pulse.#ctor(praxicloud.core.metrics.IPulse[],System.String,System.String,System.String[])">
+            <summary>
+            Initializes a new instance of the type
+            </summary>
+            <param name="pulses">The pulses that this counter feeds</param>
+            <param name="name">The name of the pulse</param>
+            <param name="help">The help text associated with the pulse</param>
+            <param name="labels">The labels associated with the pulse</param>
+        </member>
+        <member name="M:praxicloud.core.metrics.Pulse.Observe">
+            <inheritdoc />
+        </member>
+        <member name="T:praxicloud.core.metrics.simpleprovider.ISimpleMetric">
+            <summary>
+            A metric that can be notified to invoke a callback
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.ISimpleMetric.WriteAsync(System.Threading.CancellationToken)">
+            <summary>
+            Write the information to the metric sink
+            </summary>
+            <param name="cancellationToken">A token to monitor for abort requests</param>
+        </member>
+        <member name="T:praxicloud.core.metrics.simpleprovider.ISimpleMetricWriter">
+            <summary>
+            A metric that can be notified to invoke a callback
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.ISimpleMetricWriter.MetricWriterSingleValueAsync(System.Object,System.String,System.String[],System.Nullable{System.Double},System.Threading.CancellationToken)">
+            <summary>
+            A writer that is called each time the metric is to be written
+            </summary>
+            <param name="name">The name of the metric</param>
+            <param name="userState">A user state object that was provided to the provider</param>
+            <param name="labels">The labels associated with the metric</param>
+            <param name="value">The value that the metric is currently at</param>
+            <param name="cancellationToken">A token to monitor for abort requests</param>
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.ISimpleMetricWriter.MetricWriterSummaryAsync(System.Object,System.String,System.String[],System.Nullable{System.Int32},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Threading.CancellationToken)">
+            <summary>
+            A writer that is called each time the metric is to be written
+            </summary>
+            <param name="name">The name of the metric</param>
+            <param name="userState">A user state object that was provided to the provider</param>
+            <param name="labels">The labels associated with the metric</param>
+            <param name="count">The number of values</param>
+            <param name="maximum">The maximum value</param>
+            <param name="mean">The average value using a mean aggregation</param>
+            <param name="minimum">The minimum value</param>
+            <param name="p50">The 50th percentile</param>
+            <param name="p90">The 90th percentile</param>
+            <param name="p95">The 95th percentile</param>
+            <param name="p98">The 98th percentile</param>
+            <param name="p99">The 99th percentile</param>
+            <param name="standardDeviation">The standard deviation</param>
+            <param name="cancellationToken">A token to monitor for abort requests</param>
+        </member>
+        <member name="T:praxicloud.core.metrics.simpleprovider.SimpleCounter">
+            <summary>
+            A counter that increments in values and never decreases, only restarting when it is recreated, invoking a callback on each reporting period
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.simpleprovider.SimpleCounter._value">
+            <summary>
+            The current value of the counter
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.simpleprovider.SimpleCounter._control">
+            <summary>
+            A control used to ensure accurate updates
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.simpleprovider.SimpleCounter._writer">
+            <summary>
+            The metric writer to invoke when writing is to be performed
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.simpleprovider.SimpleCounter._userState">
+            <summary>
+            The user state to pass to the callback when invoking
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.simpleprovider.SimpleCounter._delayPublish">
+            <summary>
+            True if the metric should delay publishing until a valid value is received
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.simpleprovider.SimpleCounter._valueReceived">
+            <summary>
+            True when a value has been written to the metric
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.SimpleCounter.#ctor(praxicloud.core.metrics.simpleprovider.ISimpleMetricWriter,System.Object,System.Boolean,System.String,System.String,System.String[])">
+            <summary>
+            Initializes a new instance of the type
+            </summary>
+            <param name="writer">The writer callback to be invoked when the output is to be written</param>
+            <param name="userState">The user state to pass to the callback</param>
+            <param name="name">The name of the counter</param>
+            <param name="delayPublish">Delay publishing of the counter until a value is received</param>
+            <param name="help">The help text associated with the counter</param>
+            <param name="labels">The labels assocaited with the counter</param>
+        </member>
+        <member name="P:praxicloud.core.metrics.simpleprovider.SimpleCounter.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:praxicloud.core.metrics.simpleprovider.SimpleCounter.Help">
+            <inheritdoc />
+        </member>
+        <member name="P:praxicloud.core.metrics.simpleprovider.SimpleCounter.Labels">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.SimpleCounter.Increment">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.SimpleCounter.IncrementBy(System.Double)">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.SimpleCounter.SetTo(System.Double)">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.SimpleCounter.WriteAsync(System.Threading.CancellationToken)">
+            <summary>
+            Triggers the metric to invoke the metric
+            </summary>
+        </member>
+        <member name="T:praxicloud.core.metrics.simpleprovider.SimpleGauge">
+            <summary>
+            A gauge that increments in values and never decreases, only restarting when it is recreated, invoking a callback on each reporting period
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.simpleprovider.SimpleGauge._value">
+            <summary>
+            The current value of the gauge
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.simpleprovider.SimpleGauge._control">
+            <summary>
+            A control used to ensure accurate updates
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.simpleprovider.SimpleGauge._writer">
+            <summary>
+            The metric writer to invoke when writing is to be performed
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.simpleprovider.SimpleGauge._userState">
+            <summary>
+            The user state to pass to the callback when invoking
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.simpleprovider.SimpleGauge._delayPublish">
+            <summary>
+            True if the metric should delay publishing until a valid value is received
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.simpleprovider.SimpleGauge._valueReceived">
+            <summary>
+            True when a value has been written to the metric
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.SimpleGauge.#ctor(praxicloud.core.metrics.simpleprovider.ISimpleMetricWriter,System.Object,System.Boolean,System.String,System.String,System.String[])">
+            <summary>
+            Initializes a new instance of the type
+            </summary>
+            <param name="writer">The writer callback to be invoked when the output is to be written</param>
+            <param name="userState">The user state to pass to the callback</param>
+            <param name="name">The name of the gauge</param>
+            <param name="delayPublish">Delay publishing of the gauge until a value is received</param>
+            <param name="help">The help text associated with the gauge</param>
+            <param name="labels">The labels assocaited with the gauge</param>
+        </member>
+        <member name="P:praxicloud.core.metrics.simpleprovider.SimpleGauge.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:praxicloud.core.metrics.simpleprovider.SimpleGauge.Help">
+            <inheritdoc />
+        </member>
+        <member name="P:praxicloud.core.metrics.simpleprovider.SimpleGauge.Labels">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.SimpleGauge.Decrement">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.SimpleGauge.DecrementBy(System.Double)">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.SimpleGauge.Increment">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.SimpleGauge.IncrementBy(System.Double)">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.SimpleGauge.SetTo(System.Double)">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.SimpleGauge.TrackExecution">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.SimpleGauge.WriteAsync(System.Threading.CancellationToken)">
+            <summary>
+            Triggers the metric to invoke the metric
+            </summary>
+        </member>
+        <member name="T:praxicloud.core.metrics.simpleprovider.SimpleGauge.Tracker">
+            <summary>
+            An type that increments a gauge when created and decrements when disposed of
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.simpleprovider.SimpleGauge.Tracker._gauge">
+            <summary>
+            The gauge to track with
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.SimpleGauge.Tracker.#ctor(praxicloud.core.metrics.IGauge)">
+            <summary>
+            Initializes a new instance of the type
+            </summary>
+            <param name="gauge">The gauge to modify</param>
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.SimpleGauge.Tracker.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:praxicloud.core.metrics.simpleprovider.SimpleMetricsProvider">
+            <summary>
+            An provider for metrics that invokes callback methods to report the values
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.simpleprovider.SimpleMetricsProvider._cancellation">
+            <summary>
+            The cancellation token to monitor for disposal
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.simpleprovider.SimpleMetricsProvider._metrics">
+            <summary>
+            A list of metrics to manage
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.SimpleMetricsProvider.#ctor(System.Int64,System.Object)">
+            <summary>
+            Initializes a new instance of the type
+            </summary>
+            <param name="reportingInterval">The number of seconds before each call to counters to report values</param>
+            <param name="userState">A user state object that consumers can provide that is meaningful to their callbacks</param>
+        </member>
+        <member name="P:praxicloud.core.metrics.simpleprovider.SimpleMetricsProvider.UserState">
+            <summary>
+            The user state object provided
+            </summary>
+        </member>
+        <member name="P:praxicloud.core.metrics.simpleprovider.SimpleMetricsProvider.ProcessingTask">
+            <summary>
+            The task that runs while processing occurs
+            </summary>
+        </member>
+        <member name="P:praxicloud.core.metrics.simpleprovider.SimpleMetricsProvider.CancellationToken">
+            <summary>
+            The cancellation in use for the provider
+            </summary>
+        </member>
+        <member name="P:praxicloud.core.metrics.simpleprovider.SimpleMetricsProvider.ContinueProcessing">
+            <summary>
+            True as long as the object is to continue recording
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.SimpleMetricsProvider.ProcessMessagesAsync(System.Int64)">
+            <summary>
+            A loop that reports at regular intervals
+            </summary>
+            <param name="reportingInterval">The interval to report in measured in seconds</param>
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.SimpleMetricsProvider.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.SimpleMetricsProvider.CreateCounter(System.String,System.String,System.Boolean,System.String[])">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.SimpleMetricsProvider.CreateGauge(System.String,System.String,System.Boolean,System.String[])">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.SimpleMetricsProvider.CreatePulse(System.String,System.String,System.Boolean,System.String[])">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.SimpleMetricsProvider.CreateSummary(System.String,System.String,System.Int64,System.Boolean,System.String[])">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.SimpleMetricsProvider.MetricPrecreate(System.String,System.String,System.Boolean,System.String[])">
+            <summary>
+            A method that can be overridden to perform processing before the metric is created
+            </summary>
+            <param name="name">The name of the metric</param>
+            <param name="help">The help text associated with the metric</param>
+            <param name="delayPublish">True if the value should delay publishing until it has a value written to it</param>
+            <param name="labels">Labels associated with the metric that may demonstrate different views. It is up to the metric provider whether it is supported and the number of labels that are supported, no exceptions will be raised as a result but many providers will demonstrate a performance impact for too many labels as it may create descrete metrics.</param>
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.SimpleMetricsProvider.MetricPostcreate(System.String,System.String,System.Boolean,System.String[],praxicloud.core.metrics.simpleprovider.ISimpleMetric)">
+            <summary>
+            A method that can be overridden to perform processing after the metric is created
+            </summary>
+            <param name="name">The name of the metric</param>
+            <param name="help">The help text associated with the metric</param>
+            <param name="delayPublish">True if the value should delay publishing until it has a value written to it</param>
+            <param name="labels">Labels associated with the metric that may demonstrate different views. It is up to the metric provider whether it is supported and the number of labels that are supported, no exceptions will be raised as a result but many providers will demonstrate a performance impact for too many labels as it may create descrete metrics.</param>
+            <param name="metricInstance">The instance that was created</param>
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.SimpleMetricsProvider.MetricWriterSingleValueAsync(System.Object,System.String,System.String[],System.Nullable{System.Double},System.Threading.CancellationToken)">
+            <summary>
+            A writer that is called each time the metric is to be written
+            </summary>
+            <param name="name">The name of the metric</param>
+            <param name="userState">A user state object that was provided to the provider</param>
+            <param name="labels">The labels associated with the metric</param>
+            <param name="value">The value that the metric is currently at</param>
+            <param name="cancellationToken">A token to monitor for abort requests</param>
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.SimpleMetricsProvider.MetricWriterSummaryAsync(System.Object,System.String,System.String[],System.Nullable{System.Int32},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Threading.CancellationToken)">
+            <summary>
+            A writer that is called each time the metric is to be written
+            </summary>
+            <param name="name">The name of the metric</param>
+            <param name="userState">A user state object that was provided to the provider</param>
+            <param name="labels">The labels associated with the metric</param>
+            <param name="count">The number of values</param>
+            <param name="maximum">The maximum value</param>
+            <param name="mean">The average value using a mean aggregation</param>
+            <param name="minimum">The minimum value</param>
+            <param name="p50">The 50th percentile</param>
+            <param name="p90">The 90th percentile</param>
+            <param name="p95">The 95th percentile</param>
+            <param name="p98">The 98th percentile</param>
+            <param name="p99">The 99th percentile</param>
+            <param name="standardDeviation">The standard deviation</param>
+            <param name="cancellationToken">A token to monitor for abort requests</param>
+        </member>
+        <member name="T:praxicloud.core.metrics.simpleprovider.SimplePulse">
+            <summary>
+            A pulse that increments in values and restarts at each reporting interval, invoking a callback on each reporting period
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.simpleprovider.SimplePulse._value">
+            <summary>
+            The current value of the pulse
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.simpleprovider.SimplePulse._writer">
+            <summary>
+            The metric writer to invoke when writing is to be performed
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.simpleprovider.SimplePulse._userState">
+            <summary>
+            The user state to pass to the callback when invoking
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.simpleprovider.SimplePulse._delayPublish">
+            <summary>
+            True if the metric should delay publishing until a valid value is received
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.simpleprovider.SimplePulse._valueReceived">
+            <summary>
+            True when a value has been written to the metric
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.SimplePulse.#ctor(praxicloud.core.metrics.simpleprovider.ISimpleMetricWriter,System.Object,System.Boolean,System.String,System.String,System.String[])">
+            <summary>
+            Initializes a new instance of the type
+            </summary>
+            <param name="writer">The writer callback to be invoked when the output is to be written</param>
+            <param name="userState">The user state to pass to the callback</param>
+            <param name="name">The name of the pulse</param>
+            <param name="delayPublish">Delay publishing of the pulse until a value is received</param>
+            <param name="help">The help text associated with the pulse</param>
+            <param name="labels">The labels assocaited with the pulse</param>
+        </member>
+        <member name="P:praxicloud.core.metrics.simpleprovider.SimplePulse.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:praxicloud.core.metrics.simpleprovider.SimplePulse.Help">
+            <inheritdoc />
+        </member>
+        <member name="P:praxicloud.core.metrics.simpleprovider.SimplePulse.Labels">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.SimplePulse.Observe">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.SimplePulse.WriteAsync(System.Threading.CancellationToken)">
+            <summary>
+            Triggers the metric to invoke the metric
+            </summary>
+        </member>
+        <member name="T:praxicloud.core.metrics.simpleprovider.SimpleSummary">
+            <summary>
+            A summary that increments in values and never decreases, only restarting when it is recreated, invoking a callback on each reporting period
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.simpleprovider.SimpleSummary._writer">
+            <summary>
+            The metric writer to invoke when writing is to be performed
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.simpleprovider.SimpleSummary._userState">
+            <summary>
+            The user state to pass to the callback when invoking
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.simpleprovider.SimpleSummary._delayPublish">
+            <summary>
+            True if the metric should delay publishing until a valid value is received
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.simpleprovider.SimpleSummary._valueReceived">
+            <summary>
+            True when a value has been written to the metric
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.simpleprovider.SimpleSummary._bucket">
+            <summary>
+            The bucket used for aggregation
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.SimpleSummary.#ctor(praxicloud.core.metrics.simpleprovider.ISimpleMetricWriter,System.Object,System.Boolean,System.Int64,System.String,System.String,System.String[])">
+            <summary>
+            Initializes a new instance of the type
+            </summary>
+            <param name="writer">The writer callback to be invoked when the output is to be written</param>
+            <param name="userState">The user state to pass to the callback</param>
+            <param name="name">The name of the counter</param>
+            <param name="delayPublish">Delay publishing of the counter until a value is received</param>
+            <param name="help">The help text associated with the counter</param>
+            <param name="labels">The labels assocaited with the counter</param>
+            <param name="bucketDuration">The number of seconds in each bucket interval</param>
+        </member>
+        <member name="P:praxicloud.core.metrics.simpleprovider.SimpleSummary.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:praxicloud.core.metrics.simpleprovider.SimpleSummary.Help">
+            <inheritdoc />
+        </member>
+        <member name="P:praxicloud.core.metrics.simpleprovider.SimpleSummary.Labels">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.SimpleSummary.WriteAsync(System.Threading.CancellationToken)">
+            <summary>
+            Triggers the metric to invoke the metric
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.SimpleSummary.Time">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.SimpleSummary.Observe(System.Double)">
+            <inheritdoc />
+        </member>
+        <member name="T:praxicloud.core.metrics.simpleprovider.SimpleSummary.Tracker">
+            <summary>
+            An type that writes the time from instantiation to disposal in a summary observed value
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.simpleprovider.SimpleSummary.Tracker._summary">
+            <summary>
+            The summary to track with
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.simpleprovider.SimpleSummary.Tracker._watch">
+            <summary>
+            The stopwatch to track with
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.SimpleSummary.Tracker.#ctor(praxicloud.core.metrics.ISummary)">
+            <summary>
+            Initializes a new instance of the type
+            </summary>
+            <param name="summary">The summary to modify</param>
+        </member>
+        <member name="M:praxicloud.core.metrics.simpleprovider.SimpleSummary.Tracker.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:praxicloud.core.metrics.Summary">
+            <summary>
+            Summarizes the value over a period of time
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.Summary._summaries">
+            <summary>
+            The list of summary that are controlled by this one aggregated counter
+            </summary>
+        </member>
+        <member name="P:praxicloud.core.metrics.Summary.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:praxicloud.core.metrics.Summary.Help">
+            <inheritdoc />
+        </member>
+        <member name="P:praxicloud.core.metrics.Summary.Labels">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.Summary.#ctor(praxicloud.core.metrics.ISummary[],System.String,System.String,System.String[])">
+            <summary>
+            Initializes a new instance of the type
+            </summary>
+            <param name="summaries">The summaries that this counter feeds</param>
+            <param name="name">The name of the summary</param>
+            <param name="help">The help text associated with the summary</param>
+            <param name="labels">The labels associated with the summary</param>
+        </member>
+        <member name="M:praxicloud.core.metrics.Summary.Observe(System.Double)">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.Summary.Time">
+            <inheritdoc />
+        </member>
+        <member name="T:praxicloud.core.metrics.Summary.Tracker">
+            <summary>
+            An type that tracks aggregates multiple disposable items
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.Summary.Tracker._toDisposeOf">
+            <summary>
+            The disposable objects to dispose of when this object is disposed
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.Summary.Tracker.#ctor(System.IDisposable[])">
+            <summary>
+            Initializes a new instance of the type
+            </summary>
+            <param name="toDisposeOf">The disposable objects to dispose of when this object is disposed</param>
+        </member>
+        <member name="M:praxicloud.core.metrics.Summary.Tracker.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:praxicloud.core.metrics.TextOutputUtilities">
+            <summary>
+            Helper utilities for text based writerse
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.TextOutputUtilities.EmptyLabelText">
+            <summary>
+            The text used to represent an empty or null label
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.TextOutputUtilities.NotIncludedLabelText">
+            <summary>
+            The text used to represent a label that is not included
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.TextOutputUtilities.LabelSeperator">
+            <summary>
+            The separator used between the labels
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.TextOutputUtilities.NotNumber">
+            <summary>
+            Text that represents a scenario where the value is not a number
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.TextOutputUtilities.DoubleFormat">
+            <summary>
+            The format string used to format double values
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.TextOutputUtilities.IntegerFormat">
+            <summary>
+            The format string used to format integer values
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.TextOutputUtilities.GetLabelText(System.Boolean,System.String[])">
+            <summary>
+            Builds the text to insert as the label text
+            </summary>
+            <param name="labels">The labels object</param>
+            <param name="includeLabels">True if the labels text should be included for the counter</param>
+            <returns>The text to insert</returns>
+        </member>
+        <member name="M:praxicloud.core.metrics.TextOutputUtilities.GetValueText(System.Nullable{System.Double})">
+            <summary>
+            Converts a double to a string in the appropriate format or replaces with not a number representation
+            </summary>
+            <param name="value">The value to convert</param>
+            <returns>The string representation</returns>
+        </member>
+        <member name="M:praxicloud.core.metrics.TextOutputUtilities.GetValueText(System.Nullable{System.Int32})">
+            <summary>
+            Converts an integer to a string in the appropriate format or replaces with not a number representation
+            </summary>
+            <param name="value">The value to convert</param>
+            <returns>The string representation</returns>
+        </member>
+        <member name="T:praxicloud.core.metrics.traceprovider.TraceMetricsExtensions">
+            <summary>
+            An extension class for metric factories
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.traceprovider.TraceMetricsExtensions.AddTrace(praxicloud.core.metrics.IMetricFactory,System.String,System.Int64,System.Boolean)">
+            <summary>
+            Adds a debug provider to the factory
+            </summary>
+            <param name="factory">The factory to add the trace provider to</param>
+            <param name="name">The user friendly and unique name of the provider</param>
+            <param name="reportingInterval">The number of seconds before each call to counters to report values</param>
+            <param name="includeLabels">True if the labels should be prefixed</param>
+            <returns>The metric factory</returns>
+        </member>
+        <member name="T:praxicloud.core.metrics.traceprovider.TraceMetricsProvider">
+            <summary>
+            A metrics provider that outputs to the console
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.traceprovider.TraceMetricsProvider._includeLabels">
+            <summary>
+            True if the writer should output the label prefix
+            </summary>
+        </member>
+        <member name="F:praxicloud.core.metrics.traceprovider.TraceMetricsProvider._metricLabels">
+            <summary>
+            A dictionary of labels for each metric
+            </summary>
+        </member>
+        <member name="M:praxicloud.core.metrics.traceprovider.TraceMetricsProvider.#ctor(System.Int64,System.Boolean)">
+            <summary>
+            Initializes a new instance of the type
+            </summary>
+            <param name="reportingInterval">The number of seconds before each call to counters to report values</param>
+            <param name="includeLabels">True if the labels should be prefixed</param>
+        </member>
+        <member name="M:praxicloud.core.metrics.traceprovider.TraceMetricsProvider.MetricPrecreate(System.String,System.String,System.Boolean,System.String[])">
+            <inheritdoc />
+        </member>
+        <member name="M:praxicloud.core.metrics.traceprovider.TraceMetricsProvider.MetricWriterSingleValueAsync(System.Object,System.String,System.String[],System.Nullable{System.Double},System.Threading.CancellationToken)">
+            <summary>
+            Writes a metric
+            </summary>
+            <param name="name">The name of the metric</param>
+            <param name="userState">A user state object that was provided to the provider</param>
+            <param name="labels">The labels associated with the metric</param>
+            <param name="value">The value that the metric is currently at</param>
+            <param name="cancellationToken">A token to monitor for abort requests</param>
+        </member>
+        <member name="M:praxicloud.core.metrics.traceprovider.TraceMetricsProvider.MetricWriterSummaryAsync(System.Object,System.String,System.String[],System.Nullable{System.Int32},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Threading.CancellationToken)">
+            <summary>
+            Writes a summary
+            </summary>
+            <param name="name">The name of the metric</param>
+            <param name="userState">A user state object that was provided to the provider</param>
+            <param name="labels">The labels associated with the metric</param>
+            <param name="count">The number of values</param>
+            <param name="maximum">The maximum value</param>
+            <param name="mean">The average value using a mean aggregation</param>
+            <param name="minimum">The minimum value</param>
+            <param name="p50">The 50th percentile</param>
+            <param name="p90">The 90th percentile</param>
+            <param name="p95">The 95th percentile</param>
+            <param name="p98">The 98th percentile</param>
+            <param name="p99">The 99th percentile</param>
+            <param name="standardDeviation">The standard deviation</param>
+            <param name="cancellationToken">A token to monitor for abort requests</param>
+        </member>
+    </members>
+</doc>
