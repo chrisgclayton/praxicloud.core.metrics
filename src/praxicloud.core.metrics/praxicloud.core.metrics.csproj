@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <PackageReference Include="MathNet.Numerics" Version="4.12.0" />
-    <PackageReference Include="PraxiCloud-Core" Version="1.1.1" />
+    <PackageReference Include="PraxiCloud-Core" Version="1.5.1" />
   </ItemGroup>
 
 

@@ -7,8 +7,7 @@ namespace praxicloud.core.metrics
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
-    using System.Linq;
-    using MathNet.Numerics.Statistics;
+    using praxicloud.core.math;
     #endregion
 
     /// <summary>
@@ -88,21 +87,45 @@ namespace praxicloud.core.metrics
         /// <param name="p99">The 99th percentile of the values</param>
         public void GetAggregates(out DateTimeOffset? bucketStartTime,  out int? count, out double? maximum, out double? minimum, out double? mean, out double? standardDeviation, out double? p50, out double? p90, out double? p95, out double? p98, out double? p99)
         {
-            var targetKey = _bucketValues.Count() > 0 ? _bucketValues.Max(item => item.Key) - 1 : -1;
-            
+            var targetKey = -1L; // _bucketValues.Count > 0 ? _bucketValues.Max(item => item.Key) - 1 : -1;
+
+            if (_bucketValues.Count > 0)
+            {
+                var maxValue = -1L;
+                var previousValue = -1L;
+                var keyEnumerator = _bucketValues.Keys.GetEnumerator();
+
+                while(keyEnumerator.MoveNext())
+                {
+                    var currentKey = keyEnumerator.Current;
+
+                    if(currentKey > maxValue)
+                    {
+                        previousValue = maxValue;
+                        maxValue = currentKey;
+                    }
+                    else if(currentKey > previousValue)
+                    {
+                        previousValue = currentKey;
+                    }
+                }
+
+                targetKey = previousValue;
+            }
+
             if(targetKey >= 0 && _bucketValues.TryGetValue(targetKey, out var values))
             {
-                maximum = Statistics.Maximum(values);
-                minimum = Statistics.Minimum(values);
-                mean = Statistics.Mean(values);
-                standardDeviation = Statistics.StandardDeviation(values);
-                p50 = Statistics.Percentile(values, 50);
-                p90 = Statistics.Percentile(values, 90);
-                p95 = Statistics.Percentile(values, 95);
-                p98 = Statistics.Percentile(values, 98);
-                p99 = Statistics.Percentile(values, 99);
-                count = values.Count;
                 bucketStartTime = GetBucketTime(targetKey, Duration);
+                count = values.Count;
+
+                var dataValues = new double[count.Value];                
+
+                for(var index = 0; index < dataValues.Length; index++)
+                {
+                    dataValues[index] = values[index];
+                }
+
+                Aggregates.GetPerformanceAggregates(dataValues, out maximum, out minimum, out mean, out _, out standardDeviation, out p50, out p90, out p95, out p98, out p99);               
             }
             else
             {
@@ -129,11 +152,6 @@ namespace praxicloud.core.metrics
         private static long GetBucket(DateTimeOffset timeStamp, long duration)
         {
             return (long)Math.Round((double)timeStamp.ToUnixTimeSeconds() / duration, MidpointRounding.ToZero);
-        //    var bucket2 = bucket2Value % 3;
-
-       //     System.Diagnostics.Debug.Print($"Bucket: {timeStamp:mm:ss.ffff} {bucket2Value}");
-            
-        //    return timeStamp.ToUnixTimeSeconds() % duration;
         }
 
         /// <summary>
