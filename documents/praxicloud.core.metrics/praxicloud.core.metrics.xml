@@ -257,7 +257,7 @@
         </member>
         <member name="T:praxicloud.core.metrics.Gauge">
             <summary>
-            A counter that increments in values and never decreases, only restarting when it is recreated
+            A gauge that increments in values and can decrease.
             </summary>
         </member>
         <member name="F:praxicloud.core.metrics.Gauge._gauges">

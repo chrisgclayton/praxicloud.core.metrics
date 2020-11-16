@@ -119,7 +119,8 @@ namespace praxicloud.core.metrics.simpleprovider
             /// <summary>
             /// The stopwatch to track with
             /// </summary>
-            private readonly Stopwatch _watch;
+            // private readonly Stopwatch _watch;
+            private readonly DateTime _watch;
             #endregion
             #region Constructors
             /// <summary>
@@ -130,15 +131,17 @@ namespace praxicloud.core.metrics.simpleprovider
             {
                 _summary = summary;
 
-                _watch = Stopwatch.StartNew();
+                _watch = DateTime.UtcNow;
+//                _watch = Stopwatch.StartNew();
             }
             #endregion
             #region Methods
             /// <inheritdoc />
             public void Dispose()
             {
-                _watch.Stop();
-                _summary.Observe(_watch.ElapsedMilliseconds);
+                //                _watch.Stop();
+                var delta = _watch.Subtract(DateTime.UtcNow);
+                _summary.Observe(delta.TotalMilliseconds);
             }
             #endregion
         }

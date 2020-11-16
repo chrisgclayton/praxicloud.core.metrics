@@ -9,7 +9,7 @@ namespace praxicloud.core.metrics
     #endregion
 
     /// <summary>
-    /// A counter that increments in values and never decreases, only restarting when it is recreated
+    /// A gauge that increments in values and can decrease.
     /// </summary>
     public sealed class Gauge : IGauge
     {
