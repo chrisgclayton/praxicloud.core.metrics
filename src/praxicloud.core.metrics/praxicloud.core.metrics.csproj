@@ -17,7 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="PraxiCloud-Core" Version="2.1.0" />
+    <PackageReference Include="PraxiCloud-Core" Version="2.2.0" />
   </ItemGroup>
 
 
