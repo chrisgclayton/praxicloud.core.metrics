@@ -2,7 +2,7 @@
   <Import Project="..\common.props" />  
   
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>PraxiCloud-Core-Metrics</PackageId>
     <Description>PraxiCloud libraries offer a range of common functions, features and base classes to use when building solutions, increasing the time to delivery. This package offers a generic provider based metrics framework.</Description>
@@ -17,7 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="PraxiCloud-Core" Version="2.0.0" />
+    <PackageReference Include="PraxiCloud-Core" Version="2.1.0" />
   </ItemGroup>
 
 
