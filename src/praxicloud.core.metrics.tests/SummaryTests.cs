@@ -64,8 +64,8 @@ namespace praxicloud.core.metrics.tests
                 Task.Delay(5000).GetAwaiter().GetResult();
             }
 
-            Assert.IsTrue(summaryValues.Count == 0, "Single value count not expected");
-            Assert.IsTrue(summaryValues.Count == 0, "Summary value count not expected");
+            Assert.IsTrue(summaryValues.IsEmpty, "Single value count not expected");
+            Assert.IsTrue(summaryValues.IsEmpty, "Summary value count not expected");
         }
 
 
@@ -116,7 +116,7 @@ namespace praxicloud.core.metrics.tests
                 start += itemList.Length;
             }
 
-            Assert.IsTrue(singleValues.Count == 0, "single value count not expected");
+            Assert.IsTrue(singleValues.IsEmpty, "single value count not expected");
         }
 
         /// <summary>
@@ -169,7 +169,7 @@ namespace praxicloud.core.metrics.tests
                 start += itemList.Length;
             }
 
-            Assert.IsTrue(singleValues.Count == 0, "single value count not expected");
+            Assert.IsTrue(singleValues.IsEmpty, "single value count not expected");
         }
 
         /// <summary>
@@ -222,7 +222,7 @@ namespace praxicloud.core.metrics.tests
                 start += itemList.Length;
             }
 
-            Assert.IsTrue(singleValues.Count == 0, "single value count not expected");
+            Assert.IsTrue(singleValues.IsEmpty, "single value count not expected");
         }
 
 
@@ -282,7 +282,7 @@ namespace praxicloud.core.metrics.tests
                 start += itemList.Length;
             }
 
-            Assert.IsTrue(singleValues.Count == 0, "single value count not expected");
+            Assert.IsTrue(singleValues.IsEmpty, "single value count not expected");
         }
 
         /// <summary>
